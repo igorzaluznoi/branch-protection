@@ -10,13 +10,11 @@ async function run() {
     const token = core.getInput("token");
     const orgName = core.getInput("org")
     const rulesPath = core.getInput("rulesPath");
-    const action = core.getInput("action");
 
     excludedReposPath = core.getInput("excludedReposPath");
     includedReposPath = core.getInput("includedReposPath");
 
     var rulesObj;
-    var branches;
 
     try {
         if (!fs.existsSync(rulesPath)) {
@@ -25,27 +23,26 @@ async function run() {
 
         const rules = fs.readFileSync(rulesPath, { encoding: 'utf8', flag: 'r' });
         rulesObj = JSON.parse(rules);
-        keys = Object.keys(rulesObj);
         var filtered_repos = await getFinalRepos(token, orgName);
 
 
         for (let [repo_name, repo_id] of filtered_repos) {
             protectionRuleIds = await getBranchesProtectionIds(token, orgName, repo_name);
 
-            console.log("Deleting Branch Protection for repo " + repo_name);
+            core.notice("Deleting Branch Protection for repo " + repo_name);
             protectionRuleIds.forEach(async (protectionRuleId) => {
                 await deleteBranchesProtection(token, protectionRuleId)
             });
 
-            if (action == "set") {
-                console.log("Setting Branch Protection for " + branches[j].name + " branch of " + repo_name);
+            rulesObj.forEach(async (rule) => {
 
+                core.notice("Setting Branch Protection for " + rule["pattern"] + " pattern of " + repo_name);
                 try {
                     await createBranchProtection(token, repo_id, rulesObj[branches[j].name]);
                 } catch (error) {
-                    console.error("Branch protection rule creation request failed for repo: " + repo_name, error.message);
+                    core.warning("Branch protection rule creation request failed for repo " + repo_name + " with error " + error.message);
                 }
-            }
+            });
         }
     }
     catch (e) {

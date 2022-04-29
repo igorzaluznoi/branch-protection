@@ -17,10 +17,6 @@ inputs:
     description: 'Path of the file with repos (newline) to be included for optionally applying branch protection. If not provided, all repos will be considered.'    
   excludedReposPath:
     description: 'Path of the file with repos (newline separated) to be excluded for branch protection. This is optional.'
-  action:
-    description: 'Set or Delete Branch protection. Default is set.'
-    default: 'set'
-    required: true
 
 runs:
   using: 'node12'
