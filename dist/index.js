@@ -5483,8 +5483,10 @@ async function run() {
 
 
         for (let [repo_name, repo_id] of filtered_repos) {
+            protectionRuleIds = await getBranchesProtectionIds(token, orgName, repo_name);
+
             console.log("Deleting Branch Protection for repo " + repo_name);
-            await getBranchesProtectionIds(token, orgName, repo_name).forEach(async (protectionRuleId) => {
+            protectionRuleIds.forEach(async (protectionRuleId) => {
                 await deleteBranchesProtection(token, protectionRuleId)
             });
 
@@ -5542,7 +5544,6 @@ async function deleteBranchesProtection(token, ruleId) {
 }
 
 async function getBranchesProtectionIds(token, org, repoName) {
-
     const { repository: { branchProtectionRules: { nodes: id } } } = await graphql({
         query: `query protectedBranches($owner: String!, $repo: String!) {
           repository(owner:$owner, name:$repo) {
