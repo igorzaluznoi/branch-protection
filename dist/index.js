@@ -6883,6 +6883,10 @@ async function run() {
             core.setFailed("Specified branch protection configuration file is missing: " + rulesPath);
         }
 
+        if (excludedReposPath && !fs.existsSync(excludedReposPath)) {
+            core.setFailed("Specified repository exclusion list file is missing: " + excludedReposPath);
+        }
+
         const rules = fs.readFileSync(rulesPath, { encoding: 'utf8', flag: 'r' });
         rulesObj = JSON.parse(rules);
         var filtered_repos = await getFinalRepos(token, orgName);
