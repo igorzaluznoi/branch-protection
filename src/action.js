@@ -225,5 +225,4 @@ function getReposFromFile(repoFilePath) {
     return repoArr;
 }
 
-
 run();

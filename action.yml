@@ -1,6 +1,5 @@
 name: 'Set-Branch-Protection'
 description: 'Custom GitHub action based on Node.js to automatically apply branch protection rules.'
-author: 'Venkatesh Subramanian <venh.123@gmail.com>'
 
 inputs:
   token:
