@@ -18,9 +18,6 @@ async function run() {
     var rulesObj;
     var branches;
 
-    console.error("we run");
-    core.warning("we run");
-
     try {
         if (!fs.existsSync(rulesPath)) {
             core.setFailed("Specified branch protection configuration file is missing: " + rulesPath);
@@ -33,10 +30,8 @@ async function run() {
 
 
         for (let [repo_name, repo_id] of filtered_repos) {
-            protectionRuleIds = await getBranchesProtectionIds(token, orgName, repo_name);
-
             console.log("Deleting Branch Protection for repo " + repo_name);
-            getBranchesProtectionIds(token, orgName, repo_name).forEach(async (protectionRuleId) => {
+            await getBranchesProtectionIds(token, orgName, repo_name).forEach(async (protectionRuleId) => {
                 await deleteBranchesProtection(token, protectionRuleId)
             });
 
