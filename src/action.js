@@ -36,7 +36,7 @@ async function run() {
 
             console.log("Deleting Branch Protection for repo " + repo_name);
             for (const protectionRuleId of protectionRuleIds) {
-                deleteBranchesProtectionRule(token, protectionRuleId)
+                await deleteBranchesProtectionRule(token, protectionRuleId)
             }
 
             for (const rule of rulesObj) {
