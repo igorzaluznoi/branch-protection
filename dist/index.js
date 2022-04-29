@@ -5471,9 +5471,12 @@ async function run() {
     var rulesObj;
     var branches;
 
+    console.error("we run");
+    core.warning("we run");
+
     try {
         if (!fs.existsSync(rulesPath)) {
-            throw "Specified branch protection configuration file is missing: " + rulesPath;
+            core.setFailed("Specified branch protection configuration file is missing: " + rulesPath);
         }
 
         const rules = fs.readFileSync(rulesPath, { encoding: 'utf8', flag: 'r' });
@@ -5677,6 +5680,9 @@ function getReposFromFile(repoFilePath) {
     }
     return repoArr;
 }
+
+
+run();
 })();
 
 module.exports = __webpack_exports__;
