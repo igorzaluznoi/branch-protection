@@ -25,6 +25,8 @@
   "homepage": "https://github.com/venh/branch-protection#readme",
   "dependencies": {
     "@actions/core": "^1.4.0",
+    "@actions/github": "^5.0.1",
+    "@octokit/graphql": "^4.8.0",
     "@octokit/request": "^5.6.0",
     "@vercel/ncc": "^0.28.6"
   }
