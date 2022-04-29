@@ -32,21 +32,21 @@ async function run() {
 
         for (let [repo_name, repo_id] of filtered_repos) {
             console.log("Getting a list of branch protection rules for repo " + repo_name);
-            protectionRuleIds = await getBranchesProtectionIds(token, orgName, repo_name);
+            var protectionRuleIds = await getBranchesProtectionIds(token, orgName, repo_name);
 
             console.log("Deleting Branch Protection for repo " + repo_name);
-            protectionRuleIds.forEach(async (protectionRuleId) => {
-                await deleteBranchesProtectionRule(token, protectionRuleId)
-            });
+            for (const protectionRuleId of protectionRuleIds) {
+                deleteBranchesProtectionRule(token, protectionRuleId)
+            }
 
-            rulesObj.forEach(async (rule) => {
+            for (const rule of rulesObj) {
                 console.log("Setting Branch Protection for " + rule["pattern"] + " pattern of " + repo_name);
                 try {
                     await createBranchProtection(token, repo_id, rule);
                 } catch (error) {
                     core.warning("Branch protection rule creation request failed for repo " + repo_name + " with error message: " + error.message);
                 }
-            });
+            }
         }
     }
     catch (e) {
