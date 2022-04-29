@@ -39,14 +39,14 @@ async function run() {
                 await deleteBranchesProtectionRule(token, protectionRuleId)
             });
 
-            // rulesObj.forEach(async (rule) => {
-            //     console.log("Setting Branch Protection for " + rule["pattern"] + " pattern of " + repo_name);
-            //     try {
-            //         await createBranchProtection(token, repo_id, rule);
-            //     } catch (error) {
-            //         core.warning("Branch protection rule creation request failed for repo " + repo_name + " with error message: " + error.message);
-            //     }
-            // });
+            rulesObj.forEach(async (rule) => {
+                console.log("Setting Branch Protection for " + rule["pattern"] + " pattern of " + repo_name);
+                try {
+                    await createBranchProtection(token, repo_id, rule);
+                } catch (error) {
+                    core.warning("Branch protection rule creation request failed for repo " + repo_name + " with error message: " + error.message);
+                }
+            });
         }
     }
     catch (e) {
