@@ -18,12 +18,13 @@ async function run() {
     var rulesObj;
     var branches;
 
+    console.error("we run");
+    core.warning("we run");
+
     try {
         if (!fs.existsSync(rulesPath)) {
             core.setFailed("Specified branch protection configuration file is missing: " + rulesPath);
         }
-
-        core.setFailed("Exception Occurred in Get Repo Count: " + e.stack);
 
         const rules = fs.readFileSync(rulesPath, { encoding: 'utf8', flag: 'r' });
         rulesObj = JSON.parse(rules);
